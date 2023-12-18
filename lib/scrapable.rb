@@ -7,12 +7,14 @@ class Scrapable
   end
 
   def self.scrape(url, fields)
-    response = HTTParty.get(url)
-    doc = Nokogiri::HTML(response.body)
-    result = process_fields(doc, fields)
-    ScrapableResource.create!(url: url, fields: result)
-    
-    result
+    Rails.cache.fetch("#{url}/#{fields}", expires_in: 2.hour) do
+      response = HTTParty.get(url)
+      doc = Nokogiri::HTML(response.body)
+      result = process_fields(doc, fields)
+      ScrapableResource.create!(url: url, fields: result)
+
+      result
+    end
   end
 
   def self.process_fields(doc, fields)
