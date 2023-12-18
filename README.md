@@ -10,7 +10,7 @@ Things you may want to cover:
 - bundle install
 
 * Ruby version
-  - ruby '3.0.0'
+  - ruby '3.2.2'
 
 * Rails version
   - Rails 7.0.8
